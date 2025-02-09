@@ -352,11 +352,12 @@ class neuralSR(keras.Model):
             def reg(s, s_t, d):
                 return tf.exp(-(s_t/(s_t-tf.minimum(s, s_t)))**d+1.)
             threshold_input_reg_loss *= reg(sparsity_input, self.alpha_sparsity_input, 0.01)
-            threshold_model_reg_loss *= reg(sparsity_model, self.alpha_sparsity_model, 0.01)
+            threshold_model_reg_loss *= reg(sparsity_model, self.alpha_sparsity_model, 0.1)
             threshold_unary_reg_loss *= reg(sparsity_unary, self.alpha_sparsity_unary, 0.01)
             threshold_binary_reg_loss *= reg(sparsity_binary, self.alpha_sparsity_binary, 0.01)
             
             # total loss
+            threshold_input_reg_loss = 0.
             total_loss = regression_loss + (threshold_model_reg_loss + 
                                             threshold_input_reg_loss + 
                                             threshold_unary_reg_loss +
@@ -387,6 +388,7 @@ class neuralSR(keras.Model):
         return {
             'loss': self.total_loss_tracker.result(),
             'regression_loss': self.regression_loss_tracker.result(),
+            'accuracy': self.accuracy_tracker.result(),
             #'threshold_input_reg_loss': self.threshold_input_reg_loss_tracker.result(),
             #'threshold_input_mean': self.threshold_input_mean_tracker.result(),
             #'threshold_model_reg_loss': self.threshold_model_reg_loss_tracker.result(),
@@ -403,7 +405,6 @@ class neuralSR(keras.Model):
             'sparsity_model': self.sparsity_model_tracker.result(),
             'sparsity_unary': self.sparsity_unary_tracker.result(),
             'sparsity_binary': self.sparsity_binary_tracker.result(),
-            'accuracy': self.accuracy_tracker.result(),
         }
     
 
