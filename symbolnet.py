@@ -1,3 +1,16 @@
+import sympy
+import numpy as np
+import tensorflow as tf
+import tensorflow.keras.backend as K
+from tensorflow.keras.regularizers import Regularizer
+from tensorflow.keras.initializers import Zeros, RandomNormal
+from tensorflow.keras.layers import *
+from tensorflow import keras
+from tensorflow.keras import layers, models, Model
+
+np.random.seed(42)
+tf.random.set_seed(42)
+
 def math_operation(tf_or_sympy, operator, x, y=None):
     # unary operators
     if operator == 'identity':
@@ -386,10 +399,10 @@ class neuralSR(keras.Model):
             #'weight_input_mean': self.weight_input_mean_tracker.result(),
             #'weight_unary_mean': self.weight_unary_mean_tracker.result(),
             #'weight_binary_mean': self.weight_binary_mean_tracker.result(),
-            #'sparsity_input': self.sparsity_input_tracker.result(),
-            #'sparsity_model': self.sparsity_model_tracker.result(),
-            #'sparsity_unary': self.sparsity_unary_tracker.result(),
-            #'sparsity_binary': self.sparsity_binary_tracker.result(),
+            'sparsity_input': self.sparsity_input_tracker.result(),
+            'sparsity_model': self.sparsity_model_tracker.result(),
+            'sparsity_unary': self.sparsity_unary_tracker.result(),
+            'sparsity_binary': self.sparsity_binary_tracker.result(),
             'accuracy': self.accuracy_tracker.result(),
         }
     
